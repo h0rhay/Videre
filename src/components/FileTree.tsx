@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Folder, FolderOpen } from 'lucide-react';
 import type { FileNode } from '../../electron/ipc';
 
 interface FileTreeProps {
@@ -28,7 +29,7 @@ function FileTreeNode({ node, selectedPath, onSelectFile, depth }: FileTreeNodeP
           aria-expanded={expanded}
         >
           <span className="file-tree-icon" aria-hidden="true">
-            {expanded ? '▾' : '▸'}
+            {expanded ? <FolderOpen size={16} /> : <Folder size={16} />}
           </span>
           {node.name}
         </button>

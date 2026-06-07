@@ -45,7 +45,10 @@
 
 .file-tree-icon {
   flex-shrink: 0;
-  font-size: var(--s-2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
 }
 
 .file-tree-empty {
