@@ -1,6 +1,6 @@
 # 07 — error & empty states polish
 
-Status: ready-for-agent
+Status: done
 Priority: 7
 Blocked-by: 06-links
 
@@ -19,3 +19,6 @@ editor pane. Folder read errors surface via Electron `dialog.showErrorBox`.
 - [ ] Empty/error states composed via Box + Center; tokens only
 - [ ] Component tests (Vitest + jsdom) cover each state trigger
 - [ ] All quality gates pass
+
+## Completion
+2026-06-07 10:31:46 — error-and-empty-states verified clean

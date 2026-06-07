@@ -5,7 +5,8 @@ const IpcChannel = {
   ReadFile: "fs:read-file",
   WriteFile: "fs:write-file",
   PathExists: "fs:path-exists",
-  OpenExternal: "shell:open-external"
+  OpenExternal: "shell:open-external",
+  ShowErrorBox: "dialog:show-error-box"
 };
 const api = {
   openFolder: () => ipcRenderer.invoke(IpcChannel.OpenFolder),
@@ -13,6 +14,7 @@ const api = {
   readFile: (path) => ipcRenderer.invoke(IpcChannel.ReadFile, path),
   writeFile: (path, content) => ipcRenderer.invoke(IpcChannel.WriteFile, path, content),
   pathExists: (path) => ipcRenderer.invoke(IpcChannel.PathExists, path),
-  openExternal: (url) => ipcRenderer.invoke(IpcChannel.OpenExternal, url)
+  openExternal: (url) => ipcRenderer.invoke(IpcChannel.OpenExternal, url),
+  showErrorBox: (title, message) => ipcRenderer.invoke(IpcChannel.ShowErrorBox, title, message)
 };
 contextBridge.exposeInMainWorld("videre", api);

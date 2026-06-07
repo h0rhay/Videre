@@ -2,23 +2,27 @@ import { useState, useEffect } from 'react';
 import { categoriseFile } from '../lib/fileType';
 import { MarkdownViewer } from './MarkdownViewer';
 import { UnsupportedPane } from './UnsupportedPane';
-import { EmptyState } from './EmptyState';
+import { NoFolderState, NoFileState } from './EmptyState';
 import { EditorHeader } from './EditorHeader';
 
 interface ContentPaneProps {
   selectedPath: string | null;
+  folderOpen: boolean;
   isDark: boolean;
   onToggleTheme: () => void;
   onNavigate: (path: string) => void;
   onShowToast: (message: string) => void;
+  onOpenFolder: () => void;
 }
 
 export function ContentPane({
   selectedPath,
+  folderOpen,
   isDark,
   onToggleTheme,
   onNavigate,
   onShowToast,
+  onOpenFolder,
 }: ContentPaneProps) {
   const [content, setContent] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -62,8 +66,10 @@ export function ContentPane({
   return (
     <main className="shell-content stack">
       <EditorHeader isDark={isDark} onToggleTheme={onToggleTheme} />
-      {selectedPath === null ? (
-        <EmptyState />
+      {selectedPath === null && !folderOpen ? (
+        <NoFolderState onOpenFolder={onOpenFolder} />
+      ) : selectedPath === null ? (
+        <NoFileState />
       ) : categoriseFile(selectedPath) !== 'markdown' ? (
         <UnsupportedPane />
       ) : error !== null ? (

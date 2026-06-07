@@ -62,6 +62,10 @@ ipcMain.handle(IpcChannel.OpenExternal, (_event, url: string): Promise<void> =>
   shell.openExternal(url),
 );
 
+ipcMain.handle(IpcChannel.ShowErrorBox, (_event, title: string, message: string): void => {
+  dialog.showErrorBox(title, message);
+});
+
 void app.whenReady().then(() => {
   createWindow();
 

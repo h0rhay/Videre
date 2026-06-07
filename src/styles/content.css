@@ -8,6 +8,32 @@
   font-size: var(--s-1);
 }
 
+.empty-state {
+  --space: var(--s1);
+  align-items: flex-start;
+}
+
+.empty-state-message {
+  color: var(--color-text-muted);
+  font-size: var(--s-1);
+}
+
+.empty-state-action {
+  font-family: inherit;
+  font-size: var(--s-1);
+  color: var(--color-accent-contrast);
+  background-color: var(--color-accent);
+  border: none;
+  border-radius: var(--s-2);
+  padding-block: var(--s-1);
+  padding-inline: var(--s0);
+  cursor: pointer;
+}
+
+.empty-state-action:hover {
+  opacity: 0.88;
+}
+
 /* Markdown prose rendered by TipTap */
 .markdown-viewer .tiptap {
   outline: none;

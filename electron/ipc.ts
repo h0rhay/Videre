@@ -5,6 +5,7 @@ export const IpcChannel = {
   WriteFile: 'fs:write-file',
   PathExists: 'fs:path-exists',
   OpenExternal: 'shell:open-external',
+  ShowErrorBox: 'dialog:show-error-box',
 } as const;
 
 export interface FileNode {
@@ -21,4 +22,5 @@ export interface VidereApi {
   writeFile: (path: string, content: string) => Promise<void>;
   pathExists: (path: string) => Promise<boolean>;
   openExternal: (url: string) => Promise<void>;
+  showErrorBox: (title: string, message: string) => Promise<void>;
 }

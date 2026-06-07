@@ -7,6 +7,7 @@ import { ContentPane } from './components/ContentPane';
 
 export function AppState() {
   const [fileTree, setFileTree] = useState<FileNode[]>([]);
+  const [folderOpen, setFolderOpen] = useState(false);
   const [selectedPath, setSelectedPath] = useState<string | null>(null);
   const [isDark, setIsDark] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -16,9 +17,17 @@ export function AppState() {
   const handleOpenFolder = useCallback(async () => {
     const selected = await window.videre.openFolder();
     if (selected !== null) {
-      const tree = await window.videre.readDir(selected);
-      setFileTree(tree);
-      setSelectedPath(null);
+      try {
+        const tree = await window.videre.readDir(selected);
+        setFileTree(tree);
+        setFolderOpen(true);
+        setSelectedPath(null);
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Could not read the folder.';
+        await window.videre.showErrorBox('Folder error', message);
+        setFileTree([]);
+        setFolderOpen(false);
+      }
     }
   }, []);
 
@@ -46,10 +55,12 @@ export function AppState() {
           />
           <ContentPane
             selectedPath={selectedPath}
+            folderOpen={folderOpen}
             isDark={isDark}
             onToggleTheme={handleToggleTheme}
             onNavigate={handleNavigate}
             onShowToast={handleShowToast}
+            onOpenFolder={handleOpenFolder}
           />
         </div>
         <Toast.Root

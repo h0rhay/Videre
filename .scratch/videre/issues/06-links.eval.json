@@ -1,0 +1,25 @@
+{
+  "issue_id": "links",
+  "verdict": "concerns",
+  "scores": {
+    "rule_adherence": {"score": 4, "notes": "Links wiring respects every-layout tokens, logical properties, individual Radix packages, Portal/Viewport usage, and pure renderer-safe resolver; only the inline style block on the tooltip ghost trigger deviates from the no-inline-style rule."},
+    "simplicity": {"score": 4, "notes": "Resolver and IPC additions are minimal, but the fixed-position ghost-trigger + manual getBoundingClientRect tooltip plumbing is a heavier mechanism than the simpler per-link Tooltip wrap the spec implies."},
+    "spec_compliance": {"score": 5, "notes": "All acceptance criteria covered: Cmd+click vs plain click, openExternal, internal resolve+navigate, File-not-found toast, hover tooltip, Vitest resolver test, and Playwright e2e."},
+    "visual_posture": {"score": 5, "notes": "Tooltip and toast styled entirely via tokens on data-state with logical properties and em radii, consistent with the design system."}
+  },
+  "violations": [
+    {
+      "rule": "\"No inline `style` props for static styling\" (docs/rules.md Styling)",
+      "file": "src/components/MarkdownViewer.tsx",
+      "severity": "minor",
+      "evidence": "style={{ position: 'fixed', top: anchorRect?.top ?? 0, ... pointerEvents: 'none' }} on the tooltip ghost trigger"
+    },
+    {
+      "rule": "\"E2E (Playwright): Cmd+click internal navigates; external triggers openExternal\" (acceptance criteria)",
+      "file": "e2e/links.spec.ts",
+      "severity": "minor",
+      "evidence": "BLOCKED — BUILD CONFIG: same preload CJS issue as debounced-write.spec.ts — tests authored but may not execute under current build"
+    }
+  ],
+  "summary": "Spec-complete, token-clean link handling; minor inline-style use on the tooltip trigger and a flagged e2e build-config blocker keep it at concerns rather than a clean pass."
+}

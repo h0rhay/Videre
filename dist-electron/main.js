@@ -1,75 +1,79 @@
-import { ipcMain as a, dialog as u, shell as E, app as o, BrowserWindow as f } from "electron";
-import { fileURLToPath as R } from "node:url";
-import l from "node:path";
-import s, { readdir as y } from "node:fs/promises";
-const r = {
+import { ipcMain as r, dialog as f, shell as E, app as l, BrowserWindow as w } from "electron";
+import { fileURLToPath as x } from "node:url";
+import s from "node:path";
+import d, { readdir as R } from "node:fs/promises";
+const i = {
   OpenFolder: "dialog:open-folder",
   ReadDir: "fs:read-dir",
   ReadFile: "fs:read-file",
   WriteFile: "fs:write-file",
   PathExists: "fs:path-exists",
-  OpenExternal: "shell:open-external"
+  OpenExternal: "shell:open-external",
+  ShowErrorBox: "dialog:show-error-box"
 };
 async function m(e) {
-  const n = await y(e, { withFileTypes: !0 });
+  const n = await R(e, { withFileTypes: !0 });
   return (await Promise.all(
     n.map(async (t) => {
-      const i = l.join(e, t.name);
+      const o = s.join(e, t.name);
       if (t.isDirectory()) {
-        const w = await m(i);
-        return { name: t.name, path: i, type: "dir", children: w };
+        const u = await m(o);
+        return { name: t.name, path: o, type: "dir", children: u };
       }
-      return { name: t.name, path: i, type: "file" };
+      return { name: t.name, path: o, type: "file" };
     })
-  )).sort((t, i) => t.type !== i.type ? t.type === "dir" ? -1 : 1 : t.name.localeCompare(i.name));
+  )).sort((t, o) => t.type !== o.type ? t.type === "dir" ? -1 : 1 : t.name.localeCompare(o.name));
 }
-const p = l.dirname(R(import.meta.url)), c = process.env.VITE_DEV_SERVER_URL;
+const p = s.dirname(x(import.meta.url)), c = process.env.VITE_DEV_SERVER_URL;
 function h() {
-  const e = new f({
+  const e = new w({
     width: 1024,
     height: 720,
     webPreferences: {
-      preload: l.join(p, "preload.cjs"),
+      preload: s.join(p, "preload.cjs"),
       contextIsolation: !0,
       nodeIntegration: !1
     }
   });
-  c ? e.loadURL(c) : e.loadFile(l.join(p, "../dist/index.html"));
+  c ? e.loadURL(c) : e.loadFile(s.join(p, "../dist/index.html"));
 }
-a.handle(r.OpenFolder, async () => {
-  const e = await u.showOpenDialog({
+r.handle(i.OpenFolder, async () => {
+  const e = await f.showOpenDialog({
     properties: ["openDirectory"]
   });
   return e.canceled || e.filePaths.length === 0 ? null : e.filePaths[0] ?? null;
 });
-a.handle(
-  r.ReadDir,
+r.handle(
+  i.ReadDir,
   (e, n) => m(n)
 );
-a.handle(
-  r.ReadFile,
-  (e, n) => s.readFile(n, "utf-8")
+r.handle(
+  i.ReadFile,
+  (e, n) => d.readFile(n, "utf-8")
 );
-a.handle(
-  r.WriteFile,
-  (e, n, d) => s.writeFile(n, d, "utf-8")
+r.handle(
+  i.WriteFile,
+  (e, n, a) => d.writeFile(n, a, "utf-8")
 );
-a.handle(r.PathExists, async (e, n) => {
+r.handle(i.PathExists, async (e, n) => {
   try {
-    return await s.access(n), !0;
+    return await d.access(n), !0;
   } catch {
     return !1;
   }
 });
-a.handle(
-  r.OpenExternal,
+r.handle(
+  i.OpenExternal,
   (e, n) => E.openExternal(n)
 );
-o.whenReady().then(() => {
-  h(), o.on("activate", () => {
-    f.getAllWindows().length === 0 && h();
+r.handle(i.ShowErrorBox, (e, n, a) => {
+  f.showErrorBox(n, a);
+});
+l.whenReady().then(() => {
+  h(), l.on("activate", () => {
+    w.getAllWindows().length === 0 && h();
   });
 });
-o.on("window-all-closed", () => {
-  process.platform !== "darwin" && o.quit();
+l.on("window-all-closed", () => {
+  process.platform !== "darwin" && l.quit();
 });

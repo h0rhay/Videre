@@ -9,6 +9,8 @@ const api: VidereApi = {
     ipcRenderer.invoke(IpcChannel.WriteFile, path, content),
   pathExists: (path: string) => ipcRenderer.invoke(IpcChannel.PathExists, path),
   openExternal: (url: string) => ipcRenderer.invoke(IpcChannel.OpenExternal, url),
+  showErrorBox: (title: string, message: string) =>
+    ipcRenderer.invoke(IpcChannel.ShowErrorBox, title, message),
 };
 
 contextBridge.exposeInMainWorld('videre', api);
