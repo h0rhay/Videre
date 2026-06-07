@@ -33,7 +33,10 @@ test('DEV mode: open-folder works against the vite dev server', async () => {
     dialog.showOpenDialog = async () => ({ canceled: false, filePaths: [dir] });
   }, root);
   const w = await app.firstWindow();
-  const api = await w.evaluate(() => typeof (window as any).videre?.openFolder);
+  const api = await w.evaluate(() => {
+    const v = (window as unknown as { videre?: { openFolder?: unknown } }).videre;
+    return typeof v?.openFolder;
+  });
   expect(api).toBe('function');
   await w.locator('.shell-sidebar').getByRole('button', { name: 'Open folder' }).click();
   await expect(w.getByText('.claude').first()).toBeVisible({ timeout: 5000 });
