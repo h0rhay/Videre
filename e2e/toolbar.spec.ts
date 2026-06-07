@@ -28,5 +28,12 @@ test('formatting toolbar shows only while editing', async () => {
   await expect(w.locator('.editor-toolbar')).toBeVisible();
   await expect(w.getByRole('button', { name: 'Bold' })).toBeVisible();
 
+  // The toolbar must stay within the content pane — never bleed into the sidebar.
+  const toolbar = await w.locator('.editor-toolbar').boundingBox();
+  const content = await w.locator('.shell-content').boundingBox();
+  expect(toolbar).not.toBeNull();
+  expect(content).not.toBeNull();
+  expect(toolbar!.x).toBeGreaterThanOrEqual(content!.x - 1);
+
   await app.close();
 });

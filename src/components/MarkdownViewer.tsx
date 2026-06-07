@@ -41,6 +41,10 @@ export function MarkdownViewer({
   const onShowToastRef = useRef(onShowToast);
   const [anchorRect, setAnchorRect] = useState<AnchorRect | null>(null);
   const editorDomRef = useRef<HTMLDivElement | null>(null);
+  const boundaryEl =
+    typeof document === 'undefined'
+      ? null
+      : (document.querySelector('.shell-content') as HTMLElement | null);
 
   onNavigateRef.current = onNavigate;
   onShowToastRef.current = onShowToast;
@@ -146,7 +150,13 @@ export function MarkdownViewer({
       {editor !== null ? (
         <BubbleMenu
           editor={editor}
-          options={{ placement: 'top', offset: 40 }}
+          options={{
+            placement: 'top',
+            offset: 40,
+            flip: true,
+            // Keep the bar within the content pane so it never bleeds into the sidebar.
+            shift: boundaryEl ? { boundary: boundaryEl, padding: 8 } : true,
+          }}
           shouldShow={({ editor: ed }) => ed.isFocused}
         >
           <EditorToolbar editor={editor} />
