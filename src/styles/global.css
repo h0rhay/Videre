@@ -32,6 +32,12 @@ body,
   block-size: 100%;
 }
 
+/* App frame is exactly the viewport; only inner panes scroll. */
+body,
+#root {
+  overflow: hidden;
+}
+
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
