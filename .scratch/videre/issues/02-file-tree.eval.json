@@ -1,0 +1,12 @@
+{
+  "issue_id": "file-tree",
+  "verdict": "pass",
+  "scores": {
+    "rule_adherence": {"score": 5, "notes": "fs access stays in main process, typed IPC via contextBridge, every-layout Stack, logical properties, modular-scale tokens, and Promise.all for recursion all respect the binding rules."},
+    "simplicity": {"score": 5, "notes": "Recursive FileTreeNode and a small builder with no superfluous abstractions or restating comments."},
+    "spec_compliance": {"score": 5, "notes": "Typed FileNode[] tree, expand/collapse, selection with active style, Vitest unit test, Stack with logical-property nesting, and a 'No files found' empty state all satisfy the acceptance criteria."},
+    "visual_posture": {"score": 5, "notes": "Tree styled via tokens on data-selected/hover with mono-scale spacing and ellipsis truncation, matching the sidebar navigator intent."}
+  },
+  "violations": [],
+  "summary": "Clean, well-tested file-tree slice that meets every acceptance criterion and binding rule with no violations."
+}

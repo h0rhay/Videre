@@ -1,6 +1,6 @@
 # 03 — markdown viewing + unsupported files
 
-Status: ready-for-agent
+Status: done
 Priority: 3
 Blocked-by: 02-file-tree
 
@@ -20,3 +20,6 @@ the no-file EmptyState use the same Box/Center treatment.
 - [ ] No file selected → EmptyState
 - [ ] File read error → inline error message in the pane
 - [ ] All quality gates pass
+
+## Completion
+2026-06-07 09:58:55 — markdown-viewing verified clean

@@ -4,7 +4,6 @@ import { Sidebar } from './components/Sidebar';
 import { ContentPane } from './components/ContentPane';
 
 export function AppState() {
-  const [folderPath, setFolderPath] = useState<string | null>(null);
   const [fileTree, setFileTree] = useState<FileNode[]>([]);
   const [selectedPath, setSelectedPath] = useState<string | null>(null);
 
@@ -12,7 +11,6 @@ export function AppState() {
     const selected = await window.videre.openFolder();
     if (selected !== null) {
       const tree = await window.videre.readDir(selected);
-      setFolderPath(selected);
       setFileTree(tree);
       setSelectedPath(null);
     }
@@ -26,7 +24,7 @@ export function AppState() {
         selectedPath={selectedPath}
         onSelectFile={setSelectedPath}
       />
-      <ContentPane folderPath={folderPath} selectedPath={selectedPath} />
+      <ContentPane selectedPath={selectedPath} />
     </div>
   );
 }

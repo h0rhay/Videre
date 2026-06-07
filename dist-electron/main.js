@@ -1,52 +1,57 @@
-import { ipcMain as s, dialog as h, app as i, BrowserWindow as p } from "electron";
+import { ipcMain as r, dialog as h, app as t, BrowserWindow as c } from "electron";
 import { fileURLToPath as w } from "node:url";
-import t from "node:path";
-import { readdir as u } from "node:fs/promises";
-const c = {
+import a from "node:path";
+import u, { readdir as R } from "node:fs/promises";
+const l = {
   OpenFolder: "dialog:open-folder",
-  ReadDir: "fs:read-dir"
+  ReadDir: "fs:read-dir",
+  ReadFile: "fs:read-file"
 };
-async function m(e) {
-  const r = await u(e, { withFileTypes: !0 });
+async function f(e) {
+  const o = await R(e, { withFileTypes: !0 });
   return (await Promise.all(
-    r.map(async (n) => {
-      const o = t.join(e, n.name);
+    o.map(async (n) => {
+      const i = a.join(e, n.name);
       if (n.isDirectory()) {
-        const f = await m(o);
-        return { name: n.name, path: o, type: "dir", children: f };
+        const m = await f(i);
+        return { name: n.name, path: i, type: "dir", children: m };
       }
-      return { name: n.name, path: o, type: "file" };
+      return { name: n.name, path: i, type: "file" };
     })
-  )).sort((n, o) => n.type !== o.type ? n.type === "dir" ? -1 : 1 : n.name.localeCompare(o.name));
+  )).sort((n, i) => n.type !== i.type ? n.type === "dir" ? -1 : 1 : n.name.localeCompare(i.name));
 }
-const a = t.dirname(w(import.meta.url)), l = process.env.VITE_DEV_SERVER_URL;
-function d() {
-  const e = new p({
+const d = a.dirname(w(import.meta.url)), s = process.env.VITE_DEV_SERVER_URL;
+function p() {
+  const e = new c({
     width: 1024,
     height: 720,
     webPreferences: {
-      preload: t.join(a, "preload.js"),
+      preload: a.join(d, "preload.js"),
       contextIsolation: !0,
       nodeIntegration: !1
     }
   });
-  l ? e.loadURL(l) : e.loadFile(t.join(a, "../dist/index.html"));
+  s ? e.loadURL(s) : e.loadFile(a.join(d, "../dist/index.html"));
 }
-s.handle(c.OpenFolder, async () => {
+r.handle(l.OpenFolder, async () => {
   const e = await h.showOpenDialog({
     properties: ["openDirectory"]
   });
   return e.canceled || e.filePaths.length === 0 ? null : e.filePaths[0] ?? null;
 });
-s.handle(
-  c.ReadDir,
-  (e, r) => m(r)
+r.handle(
+  l.ReadDir,
+  (e, o) => f(o)
 );
-i.whenReady().then(() => {
-  d(), i.on("activate", () => {
-    p.getAllWindows().length === 0 && d();
+r.handle(
+  l.ReadFile,
+  (e, o) => u.readFile(o, "utf-8")
+);
+t.whenReady().then(() => {
+  p(), t.on("activate", () => {
+    c.getAllWindows().length === 0 && p();
   });
 });
-i.on("window-all-closed", () => {
-  process.platform !== "darwin" && i.quit();
+t.on("window-all-closed", () => {
+  process.platform !== "darwin" && t.quit();
 });

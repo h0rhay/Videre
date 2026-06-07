@@ -16,6 +16,13 @@
   min-inline-size: 50%;
 }
 
+.center {
+  box-sizing: content-box;
+  max-inline-size: var(--measure);
+  margin-inline: auto;
+  padding-inline: var(--s1);
+}
+
 .cluster {
   display: flex;
   flex-wrap: wrap;
