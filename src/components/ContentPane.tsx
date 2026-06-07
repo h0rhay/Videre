@@ -64,7 +64,7 @@ export function ContentPane({ selectedPath }: ContentPaneProps) {
         <div className="content-box">
           <div className="center">
             <div className="stack">
-              <MarkdownViewer content={content} />
+              <MarkdownViewer filePath={selectedPath} content={content} />
             </div>
           </div>
         </div>

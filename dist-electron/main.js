@@ -1,57 +1,62 @@
-import { ipcMain as r, dialog as h, app as t, BrowserWindow as c } from "electron";
-import { fileURLToPath as w } from "node:url";
-import a from "node:path";
-import u, { readdir as R } from "node:fs/promises";
+import { ipcMain as a, dialog as u, app as o, BrowserWindow as f } from "electron";
+import { fileURLToPath as R } from "node:url";
+import r from "node:path";
+import m, { readdir as F } from "node:fs/promises";
 const l = {
   OpenFolder: "dialog:open-folder",
   ReadDir: "fs:read-dir",
-  ReadFile: "fs:read-file"
+  ReadFile: "fs:read-file",
+  WriteFile: "fs:write-file"
 };
-async function f(e) {
-  const o = await R(e, { withFileTypes: !0 });
+async function h(e) {
+  const n = await F(e, { withFileTypes: !0 });
   return (await Promise.all(
-    o.map(async (n) => {
-      const i = a.join(e, n.name);
-      if (n.isDirectory()) {
-        const m = await f(i);
-        return { name: n.name, path: i, type: "dir", children: m };
+    n.map(async (i) => {
+      const t = r.join(e, i.name);
+      if (i.isDirectory()) {
+        const w = await h(t);
+        return { name: i.name, path: t, type: "dir", children: w };
       }
-      return { name: n.name, path: i, type: "file" };
+      return { name: i.name, path: t, type: "file" };
     })
-  )).sort((n, i) => n.type !== i.type ? n.type === "dir" ? -1 : 1 : n.name.localeCompare(i.name));
+  )).sort((i, t) => i.type !== t.type ? i.type === "dir" ? -1 : 1 : i.name.localeCompare(t.name));
 }
-const d = a.dirname(w(import.meta.url)), s = process.env.VITE_DEV_SERVER_URL;
-function p() {
-  const e = new c({
+const s = r.dirname(R(import.meta.url)), p = process.env.VITE_DEV_SERVER_URL;
+function c() {
+  const e = new f({
     width: 1024,
     height: 720,
     webPreferences: {
-      preload: a.join(d, "preload.js"),
+      preload: r.join(s, "preload.cjs"),
       contextIsolation: !0,
       nodeIntegration: !1
     }
   });
-  s ? e.loadURL(s) : e.loadFile(a.join(d, "../dist/index.html"));
+  p ? e.loadURL(p) : e.loadFile(r.join(s, "../dist/index.html"));
 }
-r.handle(l.OpenFolder, async () => {
-  const e = await h.showOpenDialog({
+a.handle(l.OpenFolder, async () => {
+  const e = await u.showOpenDialog({
     properties: ["openDirectory"]
   });
   return e.canceled || e.filePaths.length === 0 ? null : e.filePaths[0] ?? null;
 });
-r.handle(
+a.handle(
   l.ReadDir,
-  (e, o) => f(o)
+  (e, n) => h(n)
 );
-r.handle(
+a.handle(
   l.ReadFile,
-  (e, o) => u.readFile(o, "utf-8")
+  (e, n) => m.readFile(n, "utf-8")
 );
-t.whenReady().then(() => {
-  p(), t.on("activate", () => {
-    c.getAllWindows().length === 0 && p();
+a.handle(
+  l.WriteFile,
+  (e, n, d) => m.writeFile(n, d, "utf-8")
+);
+o.whenReady().then(() => {
+  c(), o.on("activate", () => {
+    f.getAllWindows().length === 0 && c();
   });
 });
-t.on("window-all-closed", () => {
-  process.platform !== "darwin" && t.quit();
+o.on("window-all-closed", () => {
+  process.platform !== "darwin" && o.quit();
 });

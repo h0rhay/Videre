@@ -14,7 +14,7 @@ function createWindow(): void {
     width: 1024,
     height: 720,
     webPreferences: {
-      preload: path.join(dirname, 'preload.js'),
+      preload: path.join(dirname, 'preload.cjs'),
       contextIsolation: true,
       nodeIntegration: false,
     },
@@ -43,6 +43,10 @@ ipcMain.handle(IpcChannel.ReadDir, (_event, dirPath: string) =>
 
 ipcMain.handle(IpcChannel.ReadFile, (_event, filePath: string) =>
   fs.readFile(filePath, 'utf-8'),
+);
+
+ipcMain.handle(IpcChannel.WriteFile, (_event, filePath: string, content: string) =>
+  fs.writeFile(filePath, content, 'utf-8'),
 );
 
 void app.whenReady().then(() => {

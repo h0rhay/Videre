@@ -1,0 +1,12 @@
+{
+  "issue_id": "markdown-viewing",
+  "verdict": "pass",
+  "scores": {
+    "rule_adherence": {"score": 5, "notes": "fs.readFile stays in main process behind typed IPC/contextBridge, TipTap with starter-kit+link, every-layout Center/Stack with logical properties, modular-scale tokens and no disallowed px all respect the binding rules."},
+    "simplicity": {"score": 4, "notes": "Clean and minimal, though categoriseFile is called both in the effect and again during render and the cancelled-flag fetch could be tightened."},
+    "spec_compliance": {"score": 5, "notes": "Loads/renders .md via TipTap, routes non-.md to UnsupportedPane with exact copy, Vitest gate test, ~60ch Center measure, EmptyState, and inline read-error message all satisfied."},
+    "visual_posture": {"score": 5, "notes": "Prose constrained to --measure via Center, token-driven heading/code/blockquote styling with mono font for code matches the editor-pane spec."}
+  },
+  "violations": [],
+  "summary": "Solid markdown-viewing slice meeting every acceptance criterion and binding rule; only minor redundancy in the categoriseFile call keeps simplicity from a perfect score."
+}

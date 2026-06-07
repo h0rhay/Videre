@@ -1,6 +1,6 @@
 # 04 — block editing + debounced write
 
-Status: ready-for-agent
+Status: done
 Priority: 4
 Blocked-by: 03-markdown-viewing
 
@@ -18,3 +18,6 @@ is the save.
 - [ ] File write error is logged, non-blocking (no crash, no modal)
 - [ ] E2E (Playwright): open folder → select file → edit → assert file on disk changed
 - [ ] All quality gates pass
+
+## Completion
+2026-06-07 10:15:57 — block-editing-debounced-write verified clean
