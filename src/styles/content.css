@@ -34,6 +34,48 @@
   opacity: 0.88;
 }
 
+/* Reserve space so the floating toolbar never reflows content (which would
+   shift links mid-click). The viewer is the positioning context. */
+.markdown-viewer {
+  position: relative;
+  padding-block-start: var(--s2);
+}
+
+/* Floating formatting toolbar — overlays the reserved space, only while editing */
+.editor-toolbar {
+  --space: var(--s-2);
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: 5;
+  flex-wrap: wrap;
+  background-color: var(--color-bg);
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--s-1);
+  padding: var(--s-2);
+}
+
+.editor-toolbar-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s-2);
+  background: none;
+  border: none;
+  border-radius: var(--s-2);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.editor-toolbar-button:hover {
+  background-color: var(--color-surface);
+}
+
+.editor-toolbar-button[data-active='true'] {
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
 /* Markdown prose rendered by TipTap */
 .markdown-viewer .tiptap {
   outline: none;

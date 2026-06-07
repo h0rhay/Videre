@@ -1,8 +1,8 @@
-import { ipcMain as r, dialog as f, shell as E, app as l, BrowserWindow as w } from "electron";
-import { fileURLToPath as x } from "node:url";
-import s from "node:path";
-import d, { readdir as R } from "node:fs/promises";
-const i = {
+import { ipcMain, dialog, shell, app, BrowserWindow } from "electron";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
+import fs, { readdir } from "node:fs/promises";
+const IpcChannel = {
   OpenFolder: "dialog:open-folder",
   ReadDir: "fs:read-dir",
   ReadFile: "fs:read-file",
@@ -11,69 +11,86 @@ const i = {
   OpenExternal: "shell:open-external",
   ShowErrorBox: "dialog:show-error-box"
 };
-async function m(e) {
-  const n = await R(e, { withFileTypes: !0 });
-  return (await Promise.all(
-    n.map(async (t) => {
-      const o = s.join(e, t.name);
-      if (t.isDirectory()) {
-        const u = await m(o);
-        return { name: t.name, path: o, type: "dir", children: u };
+async function buildFileTree(dirPath) {
+  const entries = await readdir(dirPath, { withFileTypes: true });
+  const nodes = await Promise.all(
+    entries.map(async (entry) => {
+      const entryPath = path.join(dirPath, entry.name);
+      if (entry.isDirectory()) {
+        const children = await buildFileTree(entryPath);
+        return { name: entry.name, path: entryPath, type: "dir", children };
       }
-      return { name: t.name, path: o, type: "file" };
+      return { name: entry.name, path: entryPath, type: "file" };
     })
-  )).sort((t, o) => t.type !== o.type ? t.type === "dir" ? -1 : 1 : t.name.localeCompare(o.name));
+  );
+  return nodes.sort((a, b) => {
+    if (a.type !== b.type) {
+      return a.type === "dir" ? -1 : 1;
+    }
+    return a.name.localeCompare(b.name);
+  });
 }
-const p = s.dirname(x(import.meta.url)), c = process.env.VITE_DEV_SERVER_URL;
-function h() {
-  const e = new w({
+const dirname = path.dirname(fileURLToPath(import.meta.url));
+const VITE_DEV_SERVER_URL = process.env.VITE_DEV_SERVER_URL;
+function createWindow() {
+  const window = new BrowserWindow({
     width: 1024,
     height: 720,
     webPreferences: {
-      preload: s.join(p, "preload.cjs"),
-      contextIsolation: !0,
-      nodeIntegration: !1
+      preload: path.join(dirname, "preload.cjs"),
+      contextIsolation: true,
+      nodeIntegration: false
     }
   });
-  c ? e.loadURL(c) : e.loadFile(s.join(p, "../dist/index.html"));
+  if (VITE_DEV_SERVER_URL) {
+    void window.loadURL(VITE_DEV_SERVER_URL);
+  } else {
+    void window.loadFile(path.join(dirname, "../dist/index.html"));
+  }
 }
-r.handle(i.OpenFolder, async () => {
-  const e = await f.showOpenDialog({
+ipcMain.handle(IpcChannel.OpenFolder, async () => {
+  const result = await dialog.showOpenDialog({
     properties: ["openDirectory"]
   });
-  return e.canceled || e.filePaths.length === 0 ? null : e.filePaths[0] ?? null;
+  return result.canceled || result.filePaths.length === 0 ? null : result.filePaths[0] ?? null;
 });
-r.handle(
-  i.ReadDir,
-  (e, n) => m(n)
+ipcMain.handle(
+  IpcChannel.ReadDir,
+  (_event, dirPath) => buildFileTree(dirPath)
 );
-r.handle(
-  i.ReadFile,
-  (e, n) => d.readFile(n, "utf-8")
+ipcMain.handle(
+  IpcChannel.ReadFile,
+  (_event, filePath) => fs.readFile(filePath, "utf-8")
 );
-r.handle(
-  i.WriteFile,
-  (e, n, a) => d.writeFile(n, a, "utf-8")
+ipcMain.handle(
+  IpcChannel.WriteFile,
+  (_event, filePath, content) => fs.writeFile(filePath, content, "utf-8")
 );
-r.handle(i.PathExists, async (e, n) => {
+ipcMain.handle(IpcChannel.PathExists, async (_event, filePath) => {
   try {
-    return await d.access(n), !0;
+    await fs.access(filePath);
+    return true;
   } catch {
-    return !1;
+    return false;
   }
 });
-r.handle(
-  i.OpenExternal,
-  (e, n) => E.openExternal(n)
+ipcMain.handle(
+  IpcChannel.OpenExternal,
+  (_event, url) => shell.openExternal(url)
 );
-r.handle(i.ShowErrorBox, (e, n, a) => {
-  f.showErrorBox(n, a);
+ipcMain.handle(IpcChannel.ShowErrorBox, (_event, title, message) => {
+  dialog.showErrorBox(title, message);
 });
-l.whenReady().then(() => {
-  h(), l.on("activate", () => {
-    w.getAllWindows().length === 0 && h();
+void app.whenReady().then(() => {
+  createWindow();
+  app.on("activate", () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow();
+    }
   });
 });
-l.on("window-all-closed", () => {
-  process.platform !== "darwin" && l.quit();
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") {
+    app.quit();
+  }
 });
