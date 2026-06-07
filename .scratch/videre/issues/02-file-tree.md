@@ -1,6 +1,6 @@
 # 02 — file tree
 
-Status: ready-for-agent
+Status: done
 Priority: 2
 Blocked-by: 01-shell-and-open-folder
 
@@ -22,3 +22,6 @@ rows toggle expansion.
 - [ ] Tree composed as a Stack; nesting via logical properties + modular scale
 - [ ] Empty folder shows a "No files found" state
 - [ ] All quality gates pass
+
+## Completion
+2026-06-07 09:53:56 — file-tree verified clean

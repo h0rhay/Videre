@@ -6,6 +6,7 @@ import './styles/tokens.css';
 import './styles/global.css';
 import './styles/layout.css';
 import './styles/shell.css';
+import './styles/file-tree.css';
 import { AppState } from './AppState';
 
 const container = document.getElementById('root');

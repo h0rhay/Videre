@@ -2,6 +2,7 @@ import { app, BrowserWindow, dialog, ipcMain } from 'electron';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { IpcChannel } from './ipc';
+import { buildFileTree } from './fileTree';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -34,6 +35,10 @@ ipcMain.handle(IpcChannel.OpenFolder, async (): Promise<string | null> => {
     ? null
     : (result.filePaths[0] ?? null);
 });
+
+ipcMain.handle(IpcChannel.ReadDir, (_event, dirPath: string) =>
+  buildFileTree(dirPath),
+);
 
 void app.whenReady().then(() => {
   createWindow();

@@ -1,0 +1,54 @@
+.file-tree-list {
+  list-style: none;
+  padding-inline-start: 0;
+  margin: 0;
+}
+
+.file-tree-list .file-tree-list {
+  padding-inline-start: var(--s0);
+}
+
+.file-tree-item {
+  margin-block: 0;
+}
+
+.file-tree-dir,
+.file-tree-file {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  inline-size: 100%;
+  text-align: start;
+  font-family: inherit;
+  font-size: var(--s-1);
+  background: none;
+  border: none;
+  padding-block: var(--s-2);
+  padding-inline: var(--s-1);
+  border-radius: var(--s-2);
+  color: var(--color-text);
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-tree-dir:hover,
+.file-tree-file:hover {
+  background-color: var(--color-border);
+}
+
+.file-tree-file[data-selected='true'] {
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+.file-tree-icon {
+  flex-shrink: 0;
+  font-size: var(--s-2);
+}
+
+.file-tree-empty {
+  font-size: var(--s-1);
+  padding-block: var(--s-1);
+}

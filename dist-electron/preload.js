@@ -1,7 +1,9 @@
-import { contextBridge as e, ipcRenderer as o } from "electron";
-const n = {
-  OpenFolder: "dialog:open-folder"
-}, r = {
-  openFolder: () => o.invoke(n.OpenFolder)
+import { contextBridge as d, ipcRenderer as e } from "electron";
+const r = {
+  OpenFolder: "dialog:open-folder",
+  ReadDir: "fs:read-dir"
+}, n = {
+  openFolder: () => e.invoke(r.OpenFolder),
+  readDir: (o) => e.invoke(r.ReadDir, o)
 };
-e.exposeInMainWorld("videre", r);
+d.exposeInMainWorld("videre", n);
