@@ -1,0 +1,20 @@
+{
+  "appId": "dev.videre.app",
+  "productName": "Videre",
+  "directories": {
+    "output": "out"
+  },
+  "files": [
+    "dist/**/*",
+    "dist-electron/**/*"
+  ],
+  "mac": {
+    "target": "dir"
+  },
+  "linux": {
+    "target": "dir"
+  },
+  "win": {
+    "target": "dir"
+  }
+}

@@ -1,6 +1,6 @@
 # 01 — app shell + open folder
 
-Status: ready-for-agent
+Status: done
 Priority: 1
 Blocked-by: none
 
@@ -27,3 +27,6 @@ loaded via fontsource.
 ## Notes
 First slice; expect package.json, vite/electron config, tsconfig (strict),
 preload typings, and a base stylesheet to land here.
+
+## Completion
+2026-06-07 08:59:35 — shell-and-open-folder verified clean

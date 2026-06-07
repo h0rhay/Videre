@@ -1,0 +1,38 @@
+:root {
+  --ratio: 1.5;
+  --s-2: calc(var(--s-1) / var(--ratio));
+  --s-1: calc(var(--s0) / var(--ratio));
+  --s0: 1rem;
+  --s1: calc(var(--s0) * var(--ratio));
+  --s2: calc(var(--s1) * var(--ratio));
+  --s3: calc(var(--s2) * var(--ratio));
+  --s4: calc(var(--s3) * var(--ratio));
+  --s5: calc(var(--s4) * var(--ratio));
+
+  --measure: 60ch;
+  --border-thin: 1px;
+  --gutter: var(--s1);
+
+  --font-ui: 'Geist Variable', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
+}
+
+:root[data-theme='dark'] {
+  --color-bg: #16181d;
+  --color-surface: #1d2026;
+  --color-border: #2c313a;
+  --color-text: #e7e9ee;
+  --color-text-muted: #9aa1ad;
+  --color-accent: #6ea8fe;
+  --color-accent-contrast: #0b1220;
+}
+
+:root[data-theme='light'] {
+  --color-bg: #ffffff;
+  --color-surface: #f6f7f9;
+  --color-border: #d9dde3;
+  --color-text: #1b1e24;
+  --color-text-muted: #5b626e;
+  --color-accent: #2563eb;
+  --color-accent-contrast: #ffffff;
+}

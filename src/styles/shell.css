@@ -1,0 +1,41 @@
+.shell-sidebar {
+  background-color: var(--color-surface);
+  border-inline-end: var(--border-thin) solid var(--color-border);
+  padding: var(--s1);
+}
+
+.shell-content {
+  padding: var(--s1);
+  overflow: auto;
+}
+
+.shell-title {
+  font-size: var(--s1);
+  font-weight: 600;
+}
+
+.shell-button {
+  font-family: inherit;
+  font-size: var(--s-1);
+  padding-block: var(--s-2);
+  padding-inline: var(--s0);
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--s-2);
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+  cursor: pointer;
+}
+
+.shell-button:hover {
+  filter: brightness(1.1);
+}
+
+.shell-empty {
+  color: var(--color-text-muted);
+}
+
+.shell-path {
+  font-family: var(--font-mono);
+  font-size: var(--s-1);
+  word-break: break-all;
+}
