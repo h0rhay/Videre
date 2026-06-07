@@ -9,7 +9,8 @@
     "dist-electron/**/*"
   ],
   "mac": {
-    "target": "dir"
+    "target": "dmg",
+    "category": "public.app-category.productivity"
   },
   "linux": {
     "target": "dir"

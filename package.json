@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.node.json",
     "lint": "eslint . --max-warnings 0",
     "test": "vitest run",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "package": "rm -rf dist dist-electron out && tsc --noEmit -p tsconfig.node.json && vite build && electron-builder --mac"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.2.9",
