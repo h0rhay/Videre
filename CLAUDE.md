@@ -8,7 +8,7 @@
 - **Styling:** CSS custom properties only — no Tailwind. Every Layout primitives (see `every-layout` skill). Modular scale via `--s0` through `--s5`.
 - **Component primitives:** Radix UI — use for all interactive primitives that require accessibility (tooltips, dialogs, toasts, dropdowns, context menus). Install packages individually (`@radix-ui/react-tooltip`, `@radix-ui/react-toast`, etc.) — never install the full suite.
 - **Rich text editor:** TipTap with `@tiptap/starter-kit` + `@tiptap/extension-link`
-- **Fonts:** `@fontsource-variable/inter` (UI), `@fontsource/geist-mono` (code/paths)
+- **Fonts:** `@fontsource-variable/geist-sans` (UI), `@fontsource/geist-mono` (code/paths). Not Inter — see docs/rules.md typography.
 
 ## Layout Rules
 
@@ -38,3 +38,21 @@ Apply the `every-layout` skill to all layout work. No `@media` breakpoints for l
 ## Spec
 
 See `docs/specs/2026-06-07-videre-design.md` for the full design spec.
+
+## Agent skills
+
+### Issue tracker
+
+Issues live as markdown files under `.scratch/<feature>/`. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default mapping (canonical names = repo labels). See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: `CONTEXT.md` at root, `docs/adr/` for ADRs. See `docs/agents/domain.md`.
+
+### Harness
+
+Autonomous loop runs via `harness ralph`. Per-project config at `.claude/harness.config.sh`. Global scripts at `~/.claude/harness/`.

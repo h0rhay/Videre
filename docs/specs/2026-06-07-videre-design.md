@@ -234,18 +234,18 @@ No `prefers-color-scheme` auto-detection — the toggle is the single source of 
 
 ## 7. Typography
 
-**Primary UI font:** [Inter](https://rsms.me/inter/) — the benchmark neo-grotesque for screen UI. Tight letter-spacing, large x-height, optical sizing support. Loaded via `@fontsource/inter` (variable font, no external network request from Electron).
+**Primary UI font:** [Geist Sans](https://vercel.com/font) — a clean, slightly characterful grotesque well-suited to dense editor UI. Loaded via `@fontsource-variable/geist-sans` (variable font, no external network request from Electron). Chosen over Inter to stay within the harness art-director's approved typography (Inter is on its anti-slop list); Geist also pairs natively with Geist Mono.
 
-**Fallback stack:** `'Inter Variable', Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif`
+**Fallback stack:** `'Geist Sans Variable', 'Geist Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif`
 
 **Mono font:** [Geist Mono](https://vercel.com/font) via `@fontsource/geist-mono` — used in code blocks inside TipTap and file tree paths.
 
 ```css
-@import '@fontsource-variable/inter';
+@import '@fontsource-variable/geist-sans';
 @import '@fontsource/geist-mono';
 
 :root {
-  --font-sans: 'Inter Variable', Inter, system-ui, 'Helvetica Neue', sans-serif;
+  --font-sans: 'Geist Sans Variable', 'Geist Sans', system-ui, 'Helvetica Neue', sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, monospace;
 
   --font-size-xs:   var(--s-2);   /* ~0.44rem */
@@ -270,7 +270,7 @@ body {
   font-family: var(--font-sans);
   font-size: var(--font-size-base);
   line-height: var(--line-height-base);
-  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11'; /* Inter stylistic alternates */
+  font-feature-settings: 'ss01'; /* Geist stylistic set: disambiguated glyphs */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -293,7 +293,7 @@ body {
 }
 ```
 
-Inter's `cv02`/`cv03`/`cv04`/`cv11` features activate disambiguated glyphs (open 4, open 6, open 9, single-storey a) — noticeably sharper in dense UI contexts.
+Geist's stylistic set (`ss01`) activates disambiguated glyphs, sharper in dense UI contexts. Verify the exact feature tags against the installed `@fontsource-variable/geist-sans` build at implementation time.
 
 The TipTap editor pane is wrapped in a `.center` with `max-inline-size: var(--measure)` (60ch) to constrain prose line length.
 
