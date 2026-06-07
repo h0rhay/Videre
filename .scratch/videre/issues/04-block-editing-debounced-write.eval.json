@@ -1,0 +1,24 @@
+{
+  "issue_id": "block-editing-debounced-write",
+  "verdict": "concerns",
+  "scores": {
+    "rule_adherence": {"score": 5, "notes": "Write path stays in main process behind typed IPC/contextBridge, debounce flushes at 500ms with no save button, write error is logged non-blocking, and preload is correctly compiled to CJS per the stack rules."},
+    "simplicity": {"score": 4, "notes": "Debounce util and viewer wiring are minimal, but the storage cast plus a large stale 'BLOCKED — BUILD CONFIG' comment block in the E2E spec add noise."},
+    "spec_compliance": {"score": 4, "notes": "Editable TipTap, debounced markdown round-trip write, Vitest fake-timer test, and Playwright spec are all present, but the E2E carries a self-described blocker note suggesting it may not pass as committed."}
+  },
+  "violations": [
+    {
+      "rule": "Be honest / spec: 'E2E (Playwright): ... assert file on disk changed' and 'All quality gates pass'",
+      "file": "e2e/debounced-write.spec.ts:13-26",
+      "severity": "minor",
+      "evidence": "BLOCKED — BUILD CONFIG ... Until then, this test will fail at the \"Open folder\" click step. — yet vite.config.ts already applies the CJS fix, leaving a misleading/stale comment whose verification status is unconfirmed."
+    },
+    {
+      "rule": "Stateless / build hygiene — committed build artifacts",
+      "file": "dist-electron/main.js, dist-electron/preload.cjs",
+      "severity": "minor",
+      "evidence": "compiled dist-electron output is committed alongside source, adding churn unrelated to the slice."
+    }
+  ],
+  "summary": "Behaviourally complete and rule-compliant debounced-write slice, downgraded to concerns by a stale misleading E2E blocker comment and committed build artifacts."
+}

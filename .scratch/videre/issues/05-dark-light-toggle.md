@@ -1,6 +1,6 @@
 # 05 — dark / light toggle
 
-Status: ready-for-agent
+Status: done
 Priority: 5
 Blocked-by: 03-markdown-viewing
 
@@ -19,3 +19,6 @@ auto`).
 - [ ] No `prefers-color-scheme` usage
 - [ ] Header composed as a Cluster; toggle pushed to inline-end logically
 - [ ] All quality gates pass
+
+## Completion
+2026-06-07 10:18:52 — dark-light-toggle verified clean

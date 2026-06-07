@@ -3,12 +3,15 @@ import { categoriseFile } from '../lib/fileType';
 import { MarkdownViewer } from './MarkdownViewer';
 import { UnsupportedPane } from './UnsupportedPane';
 import { EmptyState } from './EmptyState';
+import { EditorHeader } from './EditorHeader';
 
 interface ContentPaneProps {
   selectedPath: string | null;
+  isDark: boolean;
+  onToggleTheme: () => void;
 }
 
-export function ContentPane({ selectedPath }: ContentPaneProps) {
+export function ContentPane({ selectedPath, isDark, onToggleTheme }: ContentPaneProps) {
   const [content, setContent] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -49,7 +52,8 @@ export function ContentPane({ selectedPath }: ContentPaneProps) {
   }, [selectedPath]);
 
   return (
-    <main className="shell-content">
+    <main className="shell-content stack">
+      <EditorHeader isDark={isDark} onToggleTheme={onToggleTheme} />
       {selectedPath === null ? (
         <EmptyState />
       ) : categoriseFile(selectedPath) !== 'markdown' ? (

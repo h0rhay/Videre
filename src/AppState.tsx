@@ -6,6 +6,9 @@ import { ContentPane } from './components/ContentPane';
 export function AppState() {
   const [fileTree, setFileTree] = useState<FileNode[]>([]);
   const [selectedPath, setSelectedPath] = useState<string | null>(null);
+  const [isDark, setIsDark] = useState(false);
+
+  document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
 
   const handleOpenFolder = useCallback(async () => {
     const selected = await window.videre.openFolder();
@@ -16,6 +19,10 @@ export function AppState() {
     }
   }, []);
 
+  const handleToggleTheme = useCallback(() => {
+    setIsDark((prev) => !prev);
+  }, []);
+
   return (
     <div className="with-sidebar">
       <Sidebar
@@ -24,7 +31,11 @@ export function AppState() {
         selectedPath={selectedPath}
         onSelectFile={setSelectedPath}
       />
-      <ContentPane selectedPath={selectedPath} />
+      <ContentPane
+        selectedPath={selectedPath}
+        isDark={isDark}
+        onToggleTheme={handleToggleTheme}
+      />
     </div>
   );
 }

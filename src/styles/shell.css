@@ -34,6 +34,30 @@
   color: var(--color-text-muted);
 }
 
+.editor-header {
+  border-block-end: var(--border-thin) solid var(--color-border);
+  padding-block: var(--s-1);
+  padding-inline: var(--s1);
+}
+
+.theme-toggle {
+  margin-inline-start: auto;
+  font-family: inherit;
+  font-size: var(--s0);
+  background: none;
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--s-2);
+  padding-block: var(--s-2);
+  padding-inline: var(--s-1);
+  cursor: pointer;
+  color: var(--color-text);
+  line-height: 1;
+}
+
+.theme-toggle:hover {
+  background-color: var(--color-surface);
+}
+
 .shell-path {
   font-family: var(--font-mono);
   font-size: var(--s-1);
