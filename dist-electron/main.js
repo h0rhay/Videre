@@ -1,60 +1,73 @@
-import { ipcMain as a, dialog as u, app as o, BrowserWindow as f } from "electron";
+import { ipcMain as a, dialog as u, shell as E, app as o, BrowserWindow as f } from "electron";
 import { fileURLToPath as R } from "node:url";
-import r from "node:path";
-import m, { readdir as F } from "node:fs/promises";
-const l = {
+import l from "node:path";
+import s, { readdir as y } from "node:fs/promises";
+const r = {
   OpenFolder: "dialog:open-folder",
   ReadDir: "fs:read-dir",
   ReadFile: "fs:read-file",
-  WriteFile: "fs:write-file"
+  WriteFile: "fs:write-file",
+  PathExists: "fs:path-exists",
+  OpenExternal: "shell:open-external"
 };
-async function h(e) {
-  const n = await F(e, { withFileTypes: !0 });
+async function m(e) {
+  const n = await y(e, { withFileTypes: !0 });
   return (await Promise.all(
-    n.map(async (i) => {
-      const t = r.join(e, i.name);
-      if (i.isDirectory()) {
-        const w = await h(t);
-        return { name: i.name, path: t, type: "dir", children: w };
+    n.map(async (t) => {
+      const i = l.join(e, t.name);
+      if (t.isDirectory()) {
+        const w = await m(i);
+        return { name: t.name, path: i, type: "dir", children: w };
       }
-      return { name: i.name, path: t, type: "file" };
+      return { name: t.name, path: i, type: "file" };
     })
-  )).sort((i, t) => i.type !== t.type ? i.type === "dir" ? -1 : 1 : i.name.localeCompare(t.name));
+  )).sort((t, i) => t.type !== i.type ? t.type === "dir" ? -1 : 1 : t.name.localeCompare(i.name));
 }
-const s = r.dirname(R(import.meta.url)), p = process.env.VITE_DEV_SERVER_URL;
-function c() {
+const p = l.dirname(R(import.meta.url)), c = process.env.VITE_DEV_SERVER_URL;
+function h() {
   const e = new f({
     width: 1024,
     height: 720,
     webPreferences: {
-      preload: r.join(s, "preload.cjs"),
+      preload: l.join(p, "preload.cjs"),
       contextIsolation: !0,
       nodeIntegration: !1
     }
   });
-  p ? e.loadURL(p) : e.loadFile(r.join(s, "../dist/index.html"));
+  c ? e.loadURL(c) : e.loadFile(l.join(p, "../dist/index.html"));
 }
-a.handle(l.OpenFolder, async () => {
+a.handle(r.OpenFolder, async () => {
   const e = await u.showOpenDialog({
     properties: ["openDirectory"]
   });
   return e.canceled || e.filePaths.length === 0 ? null : e.filePaths[0] ?? null;
 });
 a.handle(
-  l.ReadDir,
-  (e, n) => h(n)
+  r.ReadDir,
+  (e, n) => m(n)
 );
 a.handle(
-  l.ReadFile,
-  (e, n) => m.readFile(n, "utf-8")
+  r.ReadFile,
+  (e, n) => s.readFile(n, "utf-8")
 );
 a.handle(
-  l.WriteFile,
-  (e, n, d) => m.writeFile(n, d, "utf-8")
+  r.WriteFile,
+  (e, n, d) => s.writeFile(n, d, "utf-8")
+);
+a.handle(r.PathExists, async (e, n) => {
+  try {
+    return await s.access(n), !0;
+  } catch {
+    return !1;
+  }
+});
+a.handle(
+  r.OpenExternal,
+  (e, n) => E.openExternal(n)
 );
 o.whenReady().then(() => {
-  c(), o.on("activate", () => {
-    f.getAllWindows().length === 0 && c();
+  h(), o.on("activate", () => {
+    f.getAllWindows().length === 0 && h();
   });
 });
 o.on("window-all-closed", () => {

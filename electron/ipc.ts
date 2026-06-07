@@ -3,6 +3,8 @@ export const IpcChannel = {
   ReadDir: 'fs:read-dir',
   ReadFile: 'fs:read-file',
   WriteFile: 'fs:write-file',
+  PathExists: 'fs:path-exists',
+  OpenExternal: 'shell:open-external',
 } as const;
 
 export interface FileNode {
@@ -17,4 +19,6 @@ export interface VidereApi {
   readDir: (path: string) => Promise<FileNode[]>;
   readFile: (path: string) => Promise<string>;
   writeFile: (path: string, content: string) => Promise<void>;
+  pathExists: (path: string) => Promise<boolean>;
+  openExternal: (url: string) => Promise<void>;
 }

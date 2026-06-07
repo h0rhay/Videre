@@ -8,6 +8,7 @@ import './styles/layout.css';
 import './styles/shell.css';
 import './styles/file-tree.css';
 import './styles/content.css';
+import './styles/overlays.css';
 import { AppState } from './AppState';
 
 const container = document.getElementById('root');

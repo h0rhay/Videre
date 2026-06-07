@@ -1,0 +1,19 @@
+{
+  "issue_id": "dark-light-toggle",
+  "verdict": "pass",
+  "scores": {
+    "rule_adherence": {"score": 5, "notes": "Logical properties, modular scale, token-based colours, header as Cluster with toggle pushed via margin-inline-start:auto, dark/light token overrides exist in tokens.css, and no prefers-color-scheme — all binding rules respected."},
+    "simplicity": {"score": 4, "notes": "Toggle/header/AppState wiring is minimal and callback-prop-driven, though the theme is applied via a direct DOM mutation in the render body rather than derived cleanly."},
+    "spec_compliance": {"score": 5, "notes": "data-theme switches on toggle, surfaces recolour via :root[data-theme] token swaps, no auto-detection, header is a Cluster with the toggle at the inline-end."},
+    "visual_posture": {"score": 5, "notes": "Header gets a logical block-end border and the toggle is a token-styled bordered button consistent with the design tokens."}
+  },
+  "violations": [
+    {
+      "rule": "State: 'Derive state during render, not in effects' (binding stack rules)",
+      "file": "src/AppState.tsx:11",
+      "severity": "minor",
+      "evidence": "document.documentElement.dataset.theme = isDark ? 'dark' : 'light'; performs a DOM side effect directly in the render body."
+    }
+  ],
+  "summary": "Clean, rule-compliant theme toggle satisfying all acceptance criteria; only a minor in-render DOM mutation keeps it from flawless."
+}

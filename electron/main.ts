@@ -1,4 +1,4 @@
-import { app, BrowserWindow, dialog, ipcMain } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain, shell } from 'electron';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import fs from 'node:fs/promises';
@@ -47,6 +47,19 @@ ipcMain.handle(IpcChannel.ReadFile, (_event, filePath: string) =>
 
 ipcMain.handle(IpcChannel.WriteFile, (_event, filePath: string, content: string) =>
   fs.writeFile(filePath, content, 'utf-8'),
+);
+
+ipcMain.handle(IpcChannel.PathExists, async (_event, filePath: string): Promise<boolean> => {
+  try {
+    await fs.access(filePath);
+    return true;
+  } catch {
+    return false;
+  }
+});
+
+ipcMain.handle(IpcChannel.OpenExternal, (_event, url: string): Promise<void> =>
+  shell.openExternal(url),
 );
 
 void app.whenReady().then(() => {

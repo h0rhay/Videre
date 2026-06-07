@@ -1,4 +1,6 @@
 import { useCallback, useState } from 'react';
+import * as Toast from '@radix-ui/react-toast';
+import * as Tooltip from '@radix-ui/react-tooltip';
 import type { FileNode } from '../electron/ipc';
 import { Sidebar } from './components/Sidebar';
 import { ContentPane } from './components/ContentPane';
@@ -7,6 +9,7 @@ export function AppState() {
   const [fileTree, setFileTree] = useState<FileNode[]>([]);
   const [selectedPath, setSelectedPath] = useState<string | null>(null);
   const [isDark, setIsDark] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
 
@@ -23,19 +26,46 @@ export function AppState() {
     setIsDark((prev) => !prev);
   }, []);
 
+  const handleNavigate = useCallback((path: string) => {
+    setSelectedPath(path);
+  }, []);
+
+  const handleShowToast = useCallback((message: string) => {
+    setToastMessage(message);
+  }, []);
+
   return (
-    <div className="with-sidebar">
-      <Sidebar
-        onOpenFolder={handleOpenFolder}
-        fileTree={fileTree}
-        selectedPath={selectedPath}
-        onSelectFile={setSelectedPath}
-      />
-      <ContentPane
-        selectedPath={selectedPath}
-        isDark={isDark}
-        onToggleTheme={handleToggleTheme}
-      />
-    </div>
+    <Tooltip.Provider delayDuration={600}>
+      <Toast.Provider swipeDirection="right">
+        <div className="with-sidebar">
+          <Sidebar
+            onOpenFolder={handleOpenFolder}
+            fileTree={fileTree}
+            selectedPath={selectedPath}
+            onSelectFile={setSelectedPath}
+          />
+          <ContentPane
+            selectedPath={selectedPath}
+            isDark={isDark}
+            onToggleTheme={handleToggleTheme}
+            onNavigate={handleNavigate}
+            onShowToast={handleShowToast}
+          />
+        </div>
+        <Toast.Root
+          className="toast-root"
+          open={toastMessage !== null}
+          onOpenChange={(open) => {
+            if (!open) setToastMessage(null);
+          }}
+          duration={3000}
+        >
+          <Toast.Description className="toast-description">
+            {toastMessage}
+          </Toast.Description>
+        </Toast.Root>
+        <Toast.Viewport className="toast-viewport" />
+      </Toast.Provider>
+    </Tooltip.Provider>
   );
 }

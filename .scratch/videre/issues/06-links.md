@@ -1,6 +1,6 @@
 # 06 — links (Cmd+click, internal + external)
 
-Status: ready-for-agent
+Status: done
 Priority: 6
 Blocked-by: 04-block-editing-debounced-write
 
@@ -24,3 +24,6 @@ escape the editor container. Style via `data-state`, not inline.
 - [ ] Link resolver has a Vitest unit test (relative path cases)
 - [ ] E2E (Playwright): Cmd+click internal navigates; external triggers openExternal (mocked)
 - [ ] All quality gates pass
+
+## Completion
+2026-06-07 10:26:34 — links verified clean

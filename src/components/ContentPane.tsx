@@ -9,9 +9,17 @@ interface ContentPaneProps {
   selectedPath: string | null;
   isDark: boolean;
   onToggleTheme: () => void;
+  onNavigate: (path: string) => void;
+  onShowToast: (message: string) => void;
 }
 
-export function ContentPane({ selectedPath, isDark, onToggleTheme }: ContentPaneProps) {
+export function ContentPane({
+  selectedPath,
+  isDark,
+  onToggleTheme,
+  onNavigate,
+  onShowToast,
+}: ContentPaneProps) {
   const [content, setContent] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -68,7 +76,12 @@ export function ContentPane({ selectedPath, isDark, onToggleTheme }: ContentPane
         <div className="content-box">
           <div className="center">
             <div className="stack">
-              <MarkdownViewer filePath={selectedPath} content={content} />
+              <MarkdownViewer
+                filePath={selectedPath}
+                content={content}
+                onNavigate={onNavigate}
+                onShowToast={onShowToast}
+              />
             </div>
           </div>
         </div>
