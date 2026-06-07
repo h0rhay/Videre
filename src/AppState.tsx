@@ -52,12 +52,12 @@ export function AppState() {
             fileTree={fileTree}
             selectedPath={selectedPath}
             onSelectFile={setSelectedPath}
+            isDark={isDark}
+            onToggleTheme={handleToggleTheme}
           />
           <ContentPane
             selectedPath={selectedPath}
             folderOpen={folderOpen}
-            isDark={isDark}
-            onToggleTheme={handleToggleTheme}
             onNavigate={handleNavigate}
             onShowToast={handleShowToast}
             onOpenFolder={handleOpenFolder}

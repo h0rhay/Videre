@@ -41,17 +41,24 @@
 }
 
 .theme-toggle {
-  margin-inline-start: auto;
+  margin-block-start: auto;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-family: inherit;
-  font-size: var(--s0);
   background: none;
   border: var(--border-thin) solid var(--color-border);
   border-radius: var(--s-2);
-  padding-block: var(--s-2);
-  padding-inline: var(--s-1);
+  padding: var(--s-2);
   cursor: pointer;
   color: var(--color-text);
   line-height: 1;
+}
+
+/* Beat `.stack > * + *` so the toggle is pinned to the sidebar bottom. */
+.shell-sidebar.stack > .theme-toggle {
+  margin-block-start: auto;
 }
 
 .theme-toggle:hover {

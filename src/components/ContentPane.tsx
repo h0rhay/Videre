@@ -3,13 +3,10 @@ import { categoriseFile } from '../lib/fileType';
 import { MarkdownViewer } from './MarkdownViewer';
 import { UnsupportedPane } from './UnsupportedPane';
 import { NoFolderState, NoFileState } from './EmptyState';
-import { EditorHeader } from './EditorHeader';
 
 interface ContentPaneProps {
   selectedPath: string | null;
   folderOpen: boolean;
-  isDark: boolean;
-  onToggleTheme: () => void;
   onNavigate: (path: string) => void;
   onShowToast: (message: string) => void;
   onOpenFolder: () => void;
@@ -18,8 +15,6 @@ interface ContentPaneProps {
 export function ContentPane({
   selectedPath,
   folderOpen,
-  isDark,
-  onToggleTheme,
   onNavigate,
   onShowToast,
   onOpenFolder,
@@ -65,7 +60,6 @@ export function ContentPane({
 
   return (
     <main className="shell-content stack">
-      <EditorHeader isDark={isDark} onToggleTheme={onToggleTheme} />
       {selectedPath === null && !folderOpen ? (
         <NoFolderState onOpenFolder={onOpenFolder} />
       ) : selectedPath === null ? (
