@@ -22,9 +22,22 @@
   overflow: auto;
 }
 
+.shell-brand {
+  --space: var(--s-2);
+}
+
+.shell-brand-row {
+  --space: var(--s-2);
+}
+
 .shell-title {
   font-size: var(--s1);
   font-weight: 600;
+}
+
+.shell-subhead {
+  color: var(--color-text-muted);
+  font-size: var(--s-1);
 }
 
 .shell-button {

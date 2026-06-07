@@ -2,6 +2,7 @@ import type { FileNode } from '../../electron/ipc';
 import { Toolbar } from './Toolbar';
 import { FileTree } from './FileTree';
 import { ThemeToggle } from './ThemeToggle';
+import { VidereLogo } from './VidereLogo';
 
 interface SidebarProps {
   onOpenFolder: () => void;
@@ -22,7 +23,13 @@ export function Sidebar({
 }: SidebarProps) {
   return (
     <aside className="shell-sidebar stack">
-      <h1 className="shell-title">Videre</h1>
+      <div className="shell-brand stack">
+        <div className="cluster shell-brand-row">
+          <VidereLogo size={22} />
+          <h1 className="shell-title">Videre</h1>
+        </div>
+        <p className="shell-subhead">MD file editing made simple.</p>
+      </div>
       <Toolbar onOpenFolder={onOpenFolder} />
       <FileTree
         nodes={fileTree}

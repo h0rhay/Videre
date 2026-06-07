@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
+import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
 import { Markdown, type MarkdownStorage } from 'tiptap-markdown';
@@ -39,7 +40,6 @@ export function MarkdownViewer({
   const onNavigateRef = useRef(onNavigate);
   const onShowToastRef = useRef(onShowToast);
   const [anchorRect, setAnchorRect] = useState<AnchorRect | null>(null);
-  const [isEditing, setIsEditing] = useState(false);
   const editorDomRef = useRef<HTMLDivElement | null>(null);
 
   onNavigateRef.current = onNavigate;
@@ -61,12 +61,6 @@ export function MarkdownViewer({
     ],
     content,
     editable: true,
-    onFocus() {
-      setIsEditing(true);
-    },
-    onBlur() {
-      setIsEditing(false);
-    },
     onUpdate({ editor: ed }) {
       // TipTap types storage as the DOM Storage global; cast to the correct shape
       const mdStorage = (ed.storage as unknown as Record<string, MarkdownStorage | undefined>)['markdown'];
@@ -149,7 +143,15 @@ export function MarkdownViewer({
 
   return (
     <div className="markdown-viewer" ref={editorDomRef}>
-      {isEditing && editor !== null ? <EditorToolbar editor={editor} /> : null}
+      {editor !== null ? (
+        <BubbleMenu
+          editor={editor}
+          options={{ placement: 'top', offset: 40 }}
+          shouldShow={({ editor: ed }) => ed.isFocused}
+        >
+          <EditorToolbar editor={editor} />
+        </BubbleMenu>
+      ) : null}
       <EditorContent editor={editor} />
       <Tooltip.Root open={anchorRect !== null}>
         <Tooltip.Trigger asChild>

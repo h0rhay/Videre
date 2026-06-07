@@ -34,25 +34,16 @@
   opacity: 0.88;
 }
 
-/* Reserve space so the floating toolbar never reflows content (which would
-   shift links mid-click). The viewer is the positioning context. */
-.markdown-viewer {
-  position: relative;
-  padding-block-start: var(--s2);
-}
-
-/* Floating formatting toolbar — overlays the reserved space, only while editing */
+/* Floating formatting toolbar — positioned by TipTap BubbleMenu above the
+   block being edited. Only a visual bar here. */
 .editor-toolbar {
   --space: var(--s-2);
-  position: absolute;
-  inset-block-start: 0;
-  inset-inline: 0;
-  z-index: 5;
   flex-wrap: wrap;
   background-color: var(--color-bg);
   border: var(--border-thin) solid var(--color-border);
   border-radius: var(--s-1);
   padding: var(--s-2);
+  box-shadow: 0 var(--s-2) var(--s0) rgb(0 0 0 / 0.18);
 }
 
 .editor-toolbar-button {

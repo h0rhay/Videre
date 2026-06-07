@@ -13,7 +13,8 @@
     "lint": "eslint . --max-warnings 0",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "package": "rm -rf dist dist-electron out && tsc --noEmit -p tsconfig.node.json && vite build && electron-builder --mac"
+    "package": "rm -rf dist dist-electron out && tsc --noEmit -p tsconfig.node.json && vite build && electron-builder --mac",
+    "make-icon": "node scripts/make-icon.mjs"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.2.9",
