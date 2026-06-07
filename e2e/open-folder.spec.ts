@@ -17,5 +17,8 @@ test('clicking Open folder invokes the dialog and loads the tree', async () => {
 
   // After a successful open, the file tree should render entries from root.
   await expect(window.getByText('.claude').first()).toBeVisible({ timeout: 5000 });
+
+  // The theme toggle stays pinned and visible even with a long tree loaded.
+  await expect(window.locator('.shell-sidebar .theme-toggle')).toBeVisible();
   await app.close();
 });

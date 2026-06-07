@@ -2,6 +2,15 @@
   background-color: var(--color-surface);
   border-inline-end: var(--border-thin) solid var(--color-border);
   padding: var(--s1);
+  block-size: 100vh;
+  overflow: hidden;
+}
+
+/* Only the top-level tree scrolls, so the toggle stays pinned + visible. */
+.shell-sidebar > .file-tree-list {
+  flex: 1;
+  min-block-size: 0;
+  overflow-y: auto;
 }
 
 .shell-content {
