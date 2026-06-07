@@ -11,6 +11,7 @@ QUALITY_CHECKS=(
   "pnpm test -- --run"
   "pnpm typecheck"
   "pnpm build"
+  "pnpm test:e2e"
 )
 
 # Files loaded into every Ralph iteration as binding rules.

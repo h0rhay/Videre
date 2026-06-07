@@ -1,0 +1,12 @@
+{
+  "issue_id": "error-and-empty-states",
+  "verdict": "pass",
+  "scores": {
+    "rule_adherence": {"score": 5, "notes": "Tokens-only styling, logical properties, every-layout primitives (Box/Center/Stack), and main-process-only dialog access via typed IPC are all respected."},
+    "simplicity": {"score": 5, "notes": "Splitting EmptyState into NoFolderState/NoFileState and a try/catch around readDir is the minimal change the task needs, with no superfluous abstraction."},
+    "spec_compliance": {"score": 5, "notes": "All AC met: no-folder affordance, distinct no-file state, empty-folder message, inline file-read error, folder-read error via showErrorBox keeping tree empty, and component tests per state."},
+    "visual_posture": {"score": 5, "notes": "Empty/error surfaces composed via content-box → center with muted-text and accent tokens, consistent with the editor pane treatment."}
+  },
+  "violations": [],
+  "summary": "Clean, token-only consolidation of empty/error states with correct IPC-backed folder-error handling and per-state component tests; fully compliant."
+}

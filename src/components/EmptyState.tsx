@@ -9,7 +9,7 @@ export function NoFolderState({ onOpenFolder }: NoFolderStateProps) {
         <div className="stack empty-state">
           <p className="empty-state-message">Open a folder to get started.</p>
           <button type="button" className="empty-state-action" onClick={onOpenFolder}>
-            Open folder
+            Choose a folder
           </button>
         </div>
       </div>
