@@ -34,6 +34,11 @@ properties (design tokens) and the every-layout primitives.
 - No inline `style` props for static styling; no hex literals scattered in
   components — reference tokens.
 
+## Icons — lucide only (binding)
+
+Icons are always `lucide-react`. Emoji are NEVER used as UI icons (e.g. the
+theme toggle must use a lucide Sun/Moon, not ☀️/🌙). No ad-hoc inline SVG.
+
 ## Stack (binding)
 
 - **Platform:** Electron (main + renderer). `contextIsolation: true`,
